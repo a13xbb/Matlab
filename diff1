@@ -1,0 +1,4 @@
+function [c] = der1(func, x0)
+d = diff(func);
+c = vpa(subs(d,x0));
+end
