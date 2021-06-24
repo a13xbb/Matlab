@@ -1,46 +1,27 @@
-function [integral, n, h] = montecarlo(a,b,n)
-    fprintf("\nThe Mounte-Carlo's method works");
-    x = a + (b-a)*rand(n,1);
-    h1 = min(f(a:0.1:b));
-    h2 = max(f(a:0.1:b));
-    if h1 > 0
-        y = 0 + h2*rand(n,1);
-    else 
-        y = h1 + (h2-h1)*rand(n,1);
-    end
-    if h1 < 0
-        h1 = abs(h1);
-    else
-        h1 = 0;
-    end
-    if h2 < 0
-        h2 = 0;
-    else
-        h2 = abs(h2);
-    end
-    h = h1 + h2;
-    int = (b - a) * h;
+function [mean, n, h] = montecarlo(low,high,n)
+    hold on;
+    grid on;
+    x = low + (high - low) * rand(n, 1);  
+    h1 = max(f(low:0.1:high + 0.1));
+    h2 = min(f(low:0.1:high + 0.1));    
+    h = h1 - h2;
+    y = h2 + (h1 - h2) * rand(n, 1);
+    I = (high - low) * h;
     ns = 0;
     sum = 0;
-    hold on
+    
     for i = 1:n
         sum = sum + f(x(i));
-        if ((y(i) <= f(x(i)) && y(i)>=0) || (y(i) > f(x(i)) && y(i)<0))
-            if(y(i)>=0)
-                ns = ns + 1;
-            else
-                ns=ns-1;
-            end
-                
-            
-            %plot(x(i),y(i), 'ro')
+        if y(i) <= f(x(i)) && y(i) >= 0 || y(i) > f(x(i)) && y(i) < 0
+            ns = ns + 1;
+            plot(x(i), y(i), 'r.');
         else
-            %plot(x(i),y(i), 'bo')
+            plot(x(i), y(i), 'b.');
         end
     end
-    integral =  int * (ns/n);
-    mid = ((b - a)/n) * sum;
-    grid on
-    fplot(@f,[a b],'b');
-    fprintf("int: %.10f, mid: %.10f", integral, mid);
+    
+    I = I * (ns / n);
+    mean = ((high - low) / n) * sum;
+    
+    fplot(@f, [low high], 'green');
 end

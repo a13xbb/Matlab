@@ -12,9 +12,9 @@ for i=1:n
     sum=sum+f(x(i));
     if(y(i)<=f(x(i)))
         ns=ns+1;
-        plot(x(i), y(i), 'ro');
+        %plot(x(i), y(i), 'ro');
     else
-        plot(x(i), y(i), 'bo');
+        %plot(x(i), y(i), 'bo');
     end
 end
 Ans=A*(ns/n);

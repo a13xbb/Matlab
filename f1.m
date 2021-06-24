@@ -1,3 +1,3 @@
-function [ z ] = f1( x )
-z = 3 + sqrt(1-x.^2);
+function [ y ] = f1( x )
+y = 1./(sqrt(x+1) + sqrt((x+1).^3));
 end
